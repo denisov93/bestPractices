@@ -60,3 +60,40 @@ console.log(dogName);
 console.log(adventurer.someNonExistentMethod?.());
 // Expected output: undefined
 ```
+
+## Typescript/JS
+### Don´t suck at memory allocation
+For example, this function just stores values in memory somewhere
+```ts
+function createPoint(x,y) {
+  return {
+    x, y
+  };
+};
+```
+When you create an array, your data will be stored randomly in the space of the memory.
+```ts
+const list = [
+  createPoint(42,420),
+  createPoint(69,420),
+  createPoint(420,69),
+  createPoint(420,42),
+];
+```
+Here is an example of how it could be stored:
+
+![image](https://github.com/denisov93/bestPractices/assets/43911862/f7cdc6da-4743-42d9-a6ee-59b8b0eea77c)
+
+But if you store this like this, explicitly identifying the memory
+```ts
+const compact = new Float64Array(8);
+function readPoint(points, offset) {
+  return createPoint(points[offset], points[offset + 1]);
+};
+```
+This will allocate specific sequential memory and store in that specific chunk the information you need like this image
+![image](https://github.com/denisov93/bestPractices/assets/43911862/1d45c164-c92d-4610-9970-2994a179a8ea)
+
+
+
+
